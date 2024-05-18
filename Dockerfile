@@ -1,13 +1,17 @@
-# Use the official Python image from the Docker Hub
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+# Use Alpine Linux as the base image
+FROM python:3.9-alpine
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the FastAPI application code into the container
+# Copy the necessary files from your local machine into the Docker image
 COPY ./app /app
 
-# Install any additional dependencies if needed
-# For example, if you have dependencies listed in a requirements.txt file:
-# COPY requirements.txt requirements.txt
-# RUN pip install -r requirements.txt
+# Install FastAPI and Uvicorn
+RUN pip install fastapi uvicorn
+
+# Expose the port on which your FastAPI application will run
+EXPOSE 80
+
+# Define the command to run your FastAPI application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

@@ -1,20 +1,13 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt requirements.txt
+# Copy the FastAPI application code into the container
+COPY ./app /app
 
-# Install the required packages
-RUN pip install -r requirements.txt
-
-# Copy the rest of the application code into the container
-COPY . .
-
-# Specify the command to run the app
-CMD ["python", "app.py"]
-
-# Expose the port the app runs on
-EXPOSE 5000
+# Install any additional dependencies if needed
+# For example, if you have dependencies listed in a requirements.txt file:
+# COPY requirements.txt requirements.txt
+# RUN pip install -r requirements.txt
